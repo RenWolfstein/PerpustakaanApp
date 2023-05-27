@@ -1,11 +1,14 @@
 package frame;
 
 import db.Koneksi;
+import static java.nio.file.Files.list;
+import static java.rmi.Naming.list;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import static java.util.Collections.list;
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Penerbit;
@@ -85,5 +88,18 @@ public class PenerbitTampilFrame extends JFrame{
             System.err.println("Koneksi Null Gagal");
         }
         return penerbitList;
+    }
+    
+    public final void selectPenerbit(String keyword){
+        ArrayList<Penerbit> list = getPenerbitList(keyword);
+        DefaultTableModel model = (DefaultTableModel)tPenerbit.getModel();
+        Object[] row = new Object[2];
+        
+        for (int i = 0; i < list.size(); i++){
+            row[0] = list.get(i).getId();
+            row[1] = list.get(i).getPenerbit();
+            
+            model.addRow(row);
+        }
     }
 }
