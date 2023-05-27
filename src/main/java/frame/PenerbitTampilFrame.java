@@ -53,6 +53,7 @@ public class PenerbitTampilFrame extends JFrame{
         bBatal.setBounds(245,220,70,25);
         jScrollPane.setBounds(10,45,460,160);
 
+        resetTable("");
         setVisible(true);
     }
 
@@ -102,4 +103,11 @@ public class PenerbitTampilFrame extends JFrame{
             model.addRow(row);
         }
     }
+    
+    public final void resetTable(String keyword){
+        DefaultTableModel model = (DefaultTableModel)tPenerbit.getModel();
+        model.setRowCount(0);
+        selectPenerbit(keyword);
+    }
+    
 }
