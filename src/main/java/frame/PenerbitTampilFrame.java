@@ -56,6 +56,7 @@ public class PenerbitTampilFrame extends JFrame{
         jScrollPane.setBounds(10,45,460,160);
 
         resetTable("");
+        setListener();
         setVisible(true);
     }
 
@@ -75,7 +76,7 @@ public class PenerbitTampilFrame extends JFrame{
         Koneksi koneksi = new Koneksi();
         Connection connection = koneksi.getConnection();
         
-        String query = "Sellect * From penerbit"+keyword;
+        String query = "Select * From penerbit"+keyword;
         Statement statement;
         ResultSet resultSet;
         
@@ -115,6 +116,12 @@ public class PenerbitTampilFrame extends JFrame{
     public void setListener(){
         bTutup.addActionListener((ActionEvent e) -> {
             dispose();
+        });
+        bCari.addActionListener((ActionEvent e) -> {
+            resetTable(" Where Penerbit like '%"+eCari.getText()+"'%");
+        });
+        bBatal.addActionListener((ActionEvent e) -> {
+            resetTable("");
         });
     }
     
