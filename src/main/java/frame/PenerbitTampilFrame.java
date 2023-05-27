@@ -54,7 +54,9 @@ public class PenerbitTampilFrame extends JFrame{
         setKomponen();
     }
     
-    
+    public static void main(String[] args) {
+        PenerbitTampilFrame penerbitTampilFrame = new PenerbitTampilFrame();
+    }
 }
 
 
