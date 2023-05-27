@@ -113,11 +113,8 @@ public class PenerbitTampilFrame extends JFrame{
     }
     
     public void setListener(){
-        bTutup.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               dispose(); 
-            }
+        bTutup.addActionListener((ActionEvent e) -> {
+            dispose();
         });
     }
     
