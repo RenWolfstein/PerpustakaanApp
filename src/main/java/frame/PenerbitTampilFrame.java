@@ -1,5 +1,11 @@
 package frame;
 
+import db.Koneksi;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Penerbit;
@@ -57,7 +63,27 @@ public class PenerbitTampilFrame extends JFrame{
     public static void main(String[] args) {
         PenerbitTampilFrame penerbitTampilFrame = new PenerbitTampilFrame();
     }
+    
+    public ArrayList<Penerbit> getPenerbitList(String keyword){
+        ArrayList<Penerbit> penerbitList = new ArrayList<Penerbit>();
+        Koneksi koneksi = new Koneksi();
+        Connection connection = koneksi.getConnection();
+        
+        String query = "Sellect * From penerbit"+keyword;
+        Statement statement;
+        ResultSet resultSet;
+        
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+                    while(resultSet.next()){
+                        penerbit = new Penerbit(resultSet.getInt("id"),
+                                resultSet.getString("penerbit"));
+                        penerbitList.add(penerbit);
+                    }
+        } catch (SQLException | NullPointerException ex) {
+            System.err.println("Koneksi Null Gagal");
+        }
+        return penerbitList;
+    }
 }
-
-
-
