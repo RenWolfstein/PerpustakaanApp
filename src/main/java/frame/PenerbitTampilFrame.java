@@ -1,6 +1,8 @@
 package frame;
 
 import db.Koneksi;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
 import java.sql.Connection;
@@ -108,6 +110,15 @@ public class PenerbitTampilFrame extends JFrame{
         DefaultTableModel model = (DefaultTableModel)tPenerbit.getModel();
         model.setRowCount(0);
         selectPenerbit(keyword);
+    }
+    
+    public void setListener(){
+        bTutup.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               dispose(); 
+            }
+        });
     }
     
 }
