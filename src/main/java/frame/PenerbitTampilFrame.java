@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import static java.nio.file.Files.list;
 import static java.rmi.Naming.list;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -122,6 +123,35 @@ public class PenerbitTampilFrame extends JFrame{
         });
         bBatal.addActionListener((ActionEvent e) -> {
             resetTable("");
+        });
+        bHapus.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                int i = tPenerbit.getSelectedRow();
+                int pilihan = JOptionPane.showConfirmDialog(
+                              null,
+                              "Yakin mau hapus ?",
+                              "Konfirmasi hapus",
+                              JOptionPane.YES_NO_OPTION);
+                if(pilihan==0){
+                    if(i>0){
+                        try {
+                            TableModel model = tPenerbit.getModel();
+                            Koneksi koneksi = new Koneksi();
+                            Connection con = koneksi.getConnection();
+                            String executeQuery = "delete from penerbit where id =?";
+                            PreparedStatement ps =con.prepareStatement(executeQuery);
+                            ps.setString(1, model.getValueAt(i,0).toString());
+                            ps.executeUpdate();
+                        } catch (SQLException ex) {
+                            System.err.println(ex);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus");
+                    }
+                }
+                resetTable("");
+            }
         });
     }
     
