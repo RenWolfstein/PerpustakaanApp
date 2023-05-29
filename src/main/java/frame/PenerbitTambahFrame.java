@@ -1,6 +1,7 @@
 package frame;
 
 import javax.swing.*;
+import model.Penerbit;
 
 public class PenerbitTambahFrame extends JFrame {
     int status;
@@ -39,4 +40,24 @@ public class PenerbitTambahFrame extends JFrame {
         setVisible(true);
         ePenerbit.requestFocus();
     }
+    
+    public PenerbitTambahFrame(){
+        status = SEDANG_TAMBAH;
+        setSize(420,180);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setKomponen();
+    }
+    
+    public PenerbitTambahFrame(Penerbit penerbit){
+        status = SEDANG_UBAH;
+        setSize(420,180);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        eId.setText(String.valueOf(penerbit.getId()));
+        ePenerbit.setText((String) penerbit.getPenerbit());
+        setKomponen();
+    }
+    
 }
+
