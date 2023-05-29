@@ -153,6 +153,21 @@ public class PenerbitTampilFrame extends JFrame{
                 resetTable("");
             }
         });
+        bUbah.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int i = tPenerbit.getSelectedRow();
+                if(i>=0){
+                    TableModel model = tPenerbit.getModel();
+                    penerbit = new Penerbit();
+                    penerbit.setId(Integer.parseInt(model.getValueAt(i, 0).toString()));
+                    penerbit.setPenerbit(model.getValueAt(i, 1).toString());
+                    PenerbitTambahFrame penerbitTambahFrame = new PenerbitTambahFrame(penerbit);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+                }
+            }
+        });
     }
     
 }
