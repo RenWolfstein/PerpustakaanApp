@@ -1,5 +1,7 @@
 package frame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
 import model.Penerbit;
 
@@ -57,6 +59,15 @@ public class PenerbitTambahFrame extends JFrame {
         eId.setText(String.valueOf(penerbit.getId()));
         ePenerbit.setText((String) penerbit.getPenerbit());
         setKomponen();
+    }
+    
+    public void setListener(){
+        bBatal.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
     
 }

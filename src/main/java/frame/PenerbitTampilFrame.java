@@ -168,6 +168,9 @@ public class PenerbitTampilFrame extends JFrame{
                 }
             }
         });
+        bTambah.addActionListener((ActionEvent e) -> {
+            PenerbitTambahFrame penerbitTambahFrame = new PenerbitTambahFrame();
+        });
     }
     
 }
