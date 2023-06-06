@@ -3,15 +3,12 @@ package frame;
 import db.Koneksi;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import static java.nio.file.Files.list;
-import static java.rmi.Naming.list;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import static java.util.Collections.list;
 import javax.swing.*;
 import javax.swing.table.*;
 import model.Penerbit;
@@ -21,7 +18,7 @@ public class PenerbitTampilFrame extends JFrame{
     JTextField eCari = new JTextField();
     JButton bCari = new JButton("Cari");
     
-    String header [] = {"Id","Penerbit"};
+    String header [] = {"id","Penerbit"};
     TableModel tableModel = new DefaultTableModel(header, 0);
     JTable tPenerbit = new JTable(tableModel);
     JScrollPane jScrollPane = new JScrollPane(tPenerbit);
@@ -77,7 +74,7 @@ public class PenerbitTampilFrame extends JFrame{
         Koneksi koneksi = new Koneksi();
         Connection connection = koneksi.getConnection();
         
-        String query = "Select * From penerbit"+keyword;
+        String query = "SELECT * FROM penerbit"+keyword;
         Statement statement;
         ResultSet resultSet;
         
@@ -119,7 +116,7 @@ public class PenerbitTampilFrame extends JFrame{
             dispose();
         });
         bCari.addActionListener((ActionEvent e) -> {
-            resetTable(" Where Penerbit like '%"+eCari.getText()+"'%");
+            resetTable(" WHERE Penerbit like '%"+eCari.getText()+"%'");
         });
         bBatal.addActionListener((ActionEvent e) -> {
             resetTable("");
@@ -127,7 +124,8 @@ public class PenerbitTampilFrame extends JFrame{
         bHapus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                int i = tPenerbit.getSelectedRow();
+                int i; 
+                i = tPenerbit.getSelectedRow();
                 int pilihan = JOptionPane.showConfirmDialog(
                               null,
                               "Yakin mau hapus ?",
@@ -170,6 +168,12 @@ public class PenerbitTampilFrame extends JFrame{
         });
         bTambah.addActionListener((ActionEvent e) -> {
             PenerbitTambahFrame penerbitTambahFrame = new PenerbitTambahFrame();
+        });
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowActivated(java.awt.event.WindowEvent evt){
+                resetTable("");
+            }
         });
     }
     
