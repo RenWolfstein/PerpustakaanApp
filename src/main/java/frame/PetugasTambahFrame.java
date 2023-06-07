@@ -166,13 +166,15 @@ public class PetugasTambahFrame extends javax.swing.JFrame {
             Connection con = koneksi.getConnection();
             PreparedStatement ps;
             if(status==SEDANG_TAMBAH){
-                String executeQuery = "insert into petugas"+"(nama_petugas,username,password) values (?,?,?)";
+                String executeQuery = "insert into petugas" 
+                        + "(nama_petugas,username,password) values (?,?,?)";
                 ps = con.prepareStatement(executeQuery);
                 ps.setString(1, eNamaPetugas.getText());
                 ps.setString(2, eUsername.getText());
                 ps.setString(3, ePassword.getText());
             }else{
-                String executeQuery = "update petugas set"+"nama_petugas=?, username=?, password=?, where id=?";
+                String executeQuery = "update petugas set " 
+                        + "nama_petugas=?, username=?, password=? where id=?";
                 ps = con.prepareStatement(executeQuery);
                 ps.setString(1, eNamaPetugas.getText());
                 ps.setString(2, eUsername.getText());
@@ -181,7 +183,7 @@ public class PetugasTambahFrame extends javax.swing.JFrame {
             }
             ps.executeUpdate();
         } catch (SQLException ex) {
-            System.err.println("ex");
+            System.err.println(ex.getMessage());
         }
         dispose();
     }//GEN-LAST:event_bSimpanActionPerformed
