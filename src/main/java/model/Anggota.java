@@ -80,6 +80,19 @@ public class Anggota {
         this.fotoAnggota = fotoAnggota;
     }
     
-    
+    public Anggota(String id, String namaAnggota, String jenisKelamin, 
+            String tanggalLahir, String agama, int idPetugas, 
+            String namaPetugas, Blob fotoAnggota) {
+        petugas = new Petugas();
+		petugas.setId(idPetugas);
+        petugas.setNamaPetugas(namaPetugas);
+		
+        this.id = id;
+        this.namaAnggota = namaAnggota;
+        this.jenisKelamin = jenisKelamin;
+        this.tanggalLahir = tanggalLahir;
+        this.agama = agama;        
+        this.fotoAnggota = fotoAnggota;
+    }
     
 }

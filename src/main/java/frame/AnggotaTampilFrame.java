@@ -4,6 +4,12 @@
  */
 package frame;
 
+import db.Koneksi;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import model.Anggota;
 
 /**
@@ -21,7 +27,44 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
         initComponents();
     }
     
-    public ArrayList<Anggota> getAnggotaList(){}
+    public ArrayList<Anggota> getAnggotaList(String keyword){
+        ArrayList<Anggota> anggotaList = new ArrayList<Anggota>();
+        Koneksi koneksi = new Koneksi();
+        Connection connection = koneksi.getConnection();
+        
+        PreparedStatement ps;
+        ResultSet rs;
+        String query = "SELECT anggota.*, petugas.* FROM anggota "
+                    + "INNER JOIN petugas ON anggota.id_petugas ";
+        String order = " ORDER BY anggota.id";
+        if(!keyword.equals(""))
+            query = query+ " WHERE anggota.id = ? OR nama_anggota like ?";
+        
+        query = query+order;
+        try {
+            ps = connection.prepareStatement(query);
+             if(!keyword.equals("")){
+                 ps.setString(1,  eCari.getText());
+                 ps.setString(2,  "%"+eCari.getText()+"%");
+             }
+             rs = ps.executeQuery();
+             while(rs.next()){
+                 anggota = new Anggota(
+                     rs.getString("anggota.id"),
+                     rs.getString("nama_anggota"),
+                     rs.getString("jenis_kelamin"),
+                     rs.getString("tanggal_lahir"),
+                     rs.getString("agama"),
+                     rs.getInt("id_petugas"),
+                     rs.getString("petugas.nama_petugas"),
+                     rs.getBlob("foto_anggota"));
+                 anggotaList.add(anggota);
+             }
+        } catch (SQLException ex) {
+            System.err.println("ERROR getAnggotaList : "+ex);
+        }
+        return anggotaList;
+    }
     
     
 
