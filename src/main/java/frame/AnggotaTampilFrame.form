@@ -8,6 +8,9 @@
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowActivated" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowActivated"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -86,6 +89,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Cari"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bCariActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="scrollPane">
 
@@ -160,6 +166,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Tambah"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bTambahActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bUbah">
       <Properties>
@@ -173,16 +182,25 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Hapus"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bHapusActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bBatal">
       <Properties>
         <Property name="text" type="java.lang.String" value="Batal"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bBatalActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="bTutup">
       <Properties>
         <Property name="text" type="java.lang.String" value="Tutup"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bTutupActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

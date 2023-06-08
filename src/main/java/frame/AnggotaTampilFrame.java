@@ -5,12 +5,17 @@
 package frame;
 
 import db.Koneksi;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import model.Anggota;
+import model.Petugas;
 
 /**
  *
@@ -25,6 +30,8 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
     
     public AnggotaTampilFrame() {
         initComponents();
+        setLocationRelativeTo(null);
+        resetTable("");
     }
     
     public ArrayList<Anggota> getAnggotaList(String keyword){
@@ -66,6 +73,31 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
         return anggotaList;
     }
     
+    public void selectAnggota(String keyword){
+        ArrayList<Anggota> list = getAnggotaList(keyword);
+        DefaultTableModel model = (DefaultTableModel)tAnggota.getModel();
+        Object[] row = new Object[8];
+        
+        for (int i = 0; i < list.size(); i++){
+            row[0] = list.get(i).getId();
+            row[1] = list.get(i).getNamaAnggota();
+            row[2] = list.get(i).getJenisKelamin();
+            row[3] = list.get(i).getTanggalLahir();
+            row[4] = list.get(i).getAgama();
+            row[5] = list.get(i).getPetugas().getId();
+            row[6] = list.get(i).getPetugas().getNamaPetugas();
+            row[0] = list.get(i).getFotoAnggota();
+            
+            model.addRow(row);
+        }
+    }
+    
+    public final void resetTable(String keyword){
+        DefaultTableModel model = (DefaultTableModel)tAnggota.getModel();
+        model.setRowCount(0);
+        selectAnggota(keyword);
+    }
+    
     
 
     /**
@@ -89,10 +121,20 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
         bTutup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jLabel1.setText("Cari Petugas");
 
         bCari.setText("Cari");
+        bCari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bCariActionPerformed(evt);
+            }
+        });
 
         tAnggota.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -108,6 +150,11 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
         }
 
         bTambah.setText("Tambah");
+        bTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bTambahActionPerformed(evt);
+            }
+        });
 
         bUbah.setText("Ubah");
         bUbah.addActionListener(new java.awt.event.ActionListener() {
@@ -117,10 +164,25 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
         });
 
         bHapus.setText("Hapus");
+        bHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bHapusActionPerformed(evt);
+            }
+        });
 
         bBatal.setText("Batal");
+        bBatal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBatalActionPerformed(evt);
+            }
+        });
 
         bTutup.setText("Tutup");
+        bTutup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bTutupActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +235,81 @@ public class AnggotaTampilFrame extends javax.swing.JFrame {
 
     private void bUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bUbahActionPerformed
         // TODO add your handling code here:
+        int i = tAnggota.getSelectedRow();
+        if(i>=0){
+            TableModel model = tAnggota.getModel();
+            anggota = new Anggota();
+            anggota.setId(model.getValueAt(i, 0).toString());
+            anggota.setNamaAnggota(model.getValueAt(i, 1).toString());
+            anggota.setJenisKelamin(model.getValueAt(i, 2).toString());
+            anggota.setTanggalLahir(model.getValueAt(i, 3).toString());
+            anggota.setAgama(model.getValueAt(i, 4).toString());
+            anggota.setPetugas(new Petugas
+                    (Integer.parseInt(model.getValueAt(i, 5).toString()),
+                    model.getValueAt(i, 6).toString()));
+            Blob blob = (Blob) model.getValueAt(i, 7);
+            anggota.setFotoAnggota(blob);
+            
+            AnggotaTambahFrame anggotaTambahFrame = new AnggotaTambahFrame(anggota);
+            anggotaTambahFrame.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+        }
     }//GEN-LAST:event_bUbahActionPerformed
+
+    private void bTutupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTutupActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_bTutupActionPerformed
+
+    private void bBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBatalActionPerformed
+        // TODO add your handling code here:
+        resetTable("");
+    }//GEN-LAST:event_bBatalActionPerformed
+
+    private void bCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCariActionPerformed
+        // TODO add your handling code here:
+        resetTable(eCari.getText());
+    }//GEN-LAST:event_bCariActionPerformed
+
+    private void bHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bHapusActionPerformed
+        // TODO add your handling code here:
+        int i = tAnggota.getSelectedRow();
+                int pilihan = JOptionPane.showConfirmDialog(
+                              null,
+                              "Yakin mau hapus ?",
+                              "Konfirmasi hapus",
+                              JOptionPane.YES_NO_OPTION);
+                if(pilihan==0){
+                    if(i>0){
+                        try {
+                            TableModel model = tAnggota.getModel();
+                            Koneksi koneksi = new Koneksi();
+                            Connection con = koneksi.getConnection();
+                            String executeQuery = "delete from penerbit where id =?";
+                            PreparedStatement ps = con.prepareStatement(executeQuery);
+                            ps.setString(1, model.getValueAt(i,0).toString());
+                            ps.executeUpdate();
+                        } catch (SQLException ex) {
+                            System.err.println(ex);
+                        }
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Pilih data yang ingin dihapus");
+                    }
+                }
+                resetTable("");
+    }//GEN-LAST:event_bHapusActionPerformed
+
+    private void bTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bTambahActionPerformed
+        // TODO add your handling code here:
+        AnggotaTambahFrame anggotaTambahFrame = new AnggotaTambahFrame();
+        anggotaTambahFrame.setVisible(true);
+    }//GEN-LAST:event_bTambahActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        resetTable("");
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
